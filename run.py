@@ -39,18 +39,47 @@ def get_scores_data():
 
         score_str = input("Enter the score from the over:\n")
 
-        score_data = score_str.split(",")
+        score_over = score_str.split(",")
 
-        if validate_data(score_data):
+        if validate_data(score_over):
             print("Data is valid!")
             break
 
-    return sales_data
+    return score_over
 
-def validate_data():
+def validate_data(data):
     """
-    Validate...
+    Validate the data that has been inputed.
+    Only allowing the numbers 0-6 or the letter 
+    'W' which represents a player getting out.
     """
+    try:
+        # Check if the input string length is exactly 6
+        if len(data) != 6:
+            raise ValueError("Input must contain exactly 6 characters.")
+
+        # Check each character in the input string
+        for input in data:
+            if input not in '0123456wW':
+                raise ValueError(f"Invalid character found: {input}")
+
+        # If all checks pass, the input is valid
+        return True
+
+    except ValueError as e:
+        # Print the error message and return False to indicate invalid input
+        print(f"Validation error: {e}")
+        return False
+
+def update_scoresheet(data, worksheet):
+    """
+    Update the scoresheet with the scores from the over.
+    Players total is talleyed aswell as the teams total.
+    """
+    print('Updating scoresheet...\n')
+    worksheet_to_update = SHEET.worksheet(worksheet)
+    worksheet_to_update.append_row(data)
+    print('Scoresheet updated successfully\n')
 
 
 def main():
@@ -58,7 +87,8 @@ def main():
     Run all program functions
     """
     enter_team_names()
-    get_scores_data()
+    score_over = get_scores_data()
+    update_scoresheet(score_over, 'Team A')
 
 
 print("Welcome to Cricket Scoresheet")
