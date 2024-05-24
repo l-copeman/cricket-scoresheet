@@ -19,18 +19,20 @@ def enter_team_names():
     Enter the names of the two teams playing this game
     """
     print('Please enter the two team names for this game.')
-
-    team_a = input('Team A name:\n')
-    validate_team_names(team_a)
-    team_b = input('Team B name:\n')
-    validate_team_names(team_b)
+    while True:
+        team_a = input('Team A name:\n')
+        team_b = input('Team B name:\n')
+        
+        if validate_team_names(team_a, team_b):
+            print('Team names entered.')
+            break
 
     return (team_a, team_b)
 
-def validate_team_names(data):
+def validate_team_names(name_a, name_b):
     try:
         # Check if the data is empty
-        if data == "":
+        if (name_a, name_b) == "":
             raise ValueError("Input cannot be empty.")
         
         # If the check passes, the input is valid
@@ -67,11 +69,17 @@ Please enter the scores for {team_name}, one over at a time.
 
             if validate_data(score_over):
                 print("Data is valid!\n")
-                final_score_over = [team_name] + [i] + score_over
+                total_over = calculate_total_over(score_over)
+                final_score_over = [team_name] + [i] + score_over + [total_over]
                 update_scoresheet(final_score_over, 'Team A', team_name)
                 break  
-            
+
+    # calculate_total(score_over)
+
     print('Innings complete.\n')
+
+    empyty_row = ['Team Name', 'Over','','','','','','','Total']
+    update_scoresheet(empyty_row, 'Team A', team_name)
 
     return [team_name, score_over]
 
@@ -112,6 +120,23 @@ def update_scoresheet(data, worksheet, team_name):
     worksheet_to_update.append_row(data)
     print('Scoresheet updated successfully\n')
 
+def calculate_total_over(total):
+    """
+    Calculate total score....
+    """
+    # Convert the list of strings to a list of integers, ignoring non-integer values
+    int_data = []
+    for num in total:
+        try:
+            int_data.append(int(num))
+        except ValueError:
+            # Ignore the value if it cannot be converted to an integer
+            continue
+    
+    total = sum(int_data)
+    
+    return total
+    
 def main():
     """
     Run all program functions
