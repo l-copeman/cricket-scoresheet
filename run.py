@@ -70,7 +70,8 @@ Please enter the scores for {team_name}, one over at a time.
             if validate_data(score_over):
                 print("Data is valid!\n")
                 total_over = calculate_total_over(score_over)
-                final_score_over = [team_name] + [i] + score_over + [total_over]
+                wickets_lost = calculate_wickets_lost(score_over)
+                final_score_over = [team_name] + [i] + score_over + [total_over] + [wickets_lost]
                 update_scoresheet(final_score_over, 'Team A', team_name)
                 break  
 
@@ -78,8 +79,8 @@ Please enter the scores for {team_name}, one over at a time.
 
     print('Innings complete.\n')
 
-    empyty_row = ['Team Name', 'Over','','','','','','','Total']
-    update_scoresheet(empyty_row, 'Team A', team_name)
+    header_row = ['Team Name', 'Over','','','','','','','Total','Wickets']
+    update_scoresheet(header_row, 'Team A', team_name)
 
     return [team_name, score_over]
 
@@ -133,10 +134,22 @@ def calculate_total_over(total):
             # Ignore the value if it cannot be converted to an integer
             continue
     
-    total = sum(int_data)
+    total_over_score = sum(int_data)
     
-    return total
+    return total_over_score
+
+def calculate_wickets_lost(data):
+    """
+    Calculate wickets lost...
+    """
+    count = 0
+
+    for item in data:
+        # Count occurrences of 'w' in the current string and add to the total count
+        count += item.count('w')
     
+    return count
+
 def main():
     """
     Run all program functions
