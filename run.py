@@ -14,6 +14,18 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('cricket_scoresheet')
 
+team_a = {
+    "name": None,
+    "total": [],
+    "wickets": []
+}
+
+team_b = {
+    "name": None,
+    "total": [],
+    "wickets": []
+}
+
 def ask_for_date():
     while True:
         date_input = input("Enter the date in the format dd/mm/yy: \n")
@@ -33,16 +45,15 @@ def enter_team_names():
     Enter the names of the two teams playing this game
     """
     print('Please enter the two team names for this game.')
-    while True:
-        team_a = input('Team A name:\n')
-        team_b = input('Team B name:\n')
-        
-        if validate_team_names(team_a, team_b):
-            print('Team names entered.')
-            break
+    global team_a
+    global team_b
 
-    # title_header = [team_a] + [team_b]
-    # update_scoresheet(title_header, 'Team A', team_name)
+    while True:
+        team_a['name'] = input('Team A name:\n')
+        team_b['name'] = input('Team B name:\n')
+        
+        if validate_team_names(team_a['name'], team_b['name']):
+            break
 
     return (team_a, team_b)
 
@@ -70,37 +81,26 @@ def get_scores_data(team_name):
     """
     print(f"""
 Please enter the scores for {team_name}, one over at a time.
-
-
+Scores can be 0-6 or 'W' if a player is out.
+Enter 6 scores for the over, each seperated by a comma.
+Example: 0,2,1,4,W,0
     """)
-    # print("Please enter the scores, one over at a time.")
-    # print("Scores can be 0-6 or 'W' if a player is out." )
-    # print('Enter 6 scores for the over, each seperated by a comma.')
-    # print("Example: 0,2,1,4,W,0\n")
-    #change range back to 20
+
+    #change range back to 20 after testing
     for i in range(3):
         while True:
             score_str = input(f"Enter the score for {team_name}'s over ({i + 1}/20:)\n")
             score_stripped = score_str.replace(" ", "")
-            # score_over = [s.strip() for s in score_str]
-            # # print(stripped_list)
-            # str_list = filter(None, score_stripped)
-            # print(str_list)
             str_list = score_stripped.split(",")
             score_over = list(filter(None, str_list))
-            print('testing', score_over)
-
-
-            print('test', score_over)
+            
             if validate_data(score_over):
                 print("Data is valid!\n")
-                total_over = calculate_total_over(score_over)
-                wickets_lost = calculate_wickets_lost(score_over)
+                total_over = calculate_total_over(score_over, team_name)
+                wickets_lost = calculate_wickets_lost(score_over, team_name)
                 final_score_over = [team_name] + [i] + score_over + [total_over] + [wickets_lost]
                 update_scoresheet(final_score_over, 'Team A', team_name)
                 break  
-
-    # calculate_total(score_over)
 
     print('Innings complete.\n')
 
@@ -135,15 +135,13 @@ def update_scoresheet(data, worksheet, team_name):
     Update the scoresheet with the scores from the over.
     Players total is talleyed aswell as the teams total.
     """
-    # today_now = datetime.now()
-    # today_now_formated = today_now.strftime("%Y-%m-%d %H:%M:%S")
 
-    print('Updating scoresheet...\n')
+    # print('Updating scoresheet...\n')
     worksheet_to_update = SHEET.worksheet(worksheet)
     worksheet_to_update.append_row(data)
-    print('Scoresheet updated successfully\n')
+    # print('Scoresheet updated successfully\n')
 
-def calculate_total_over(total):
+def calculate_total_over(total, team_name):
     """
     Calculate total score....
     """
@@ -157,10 +155,14 @@ def calculate_total_over(total):
             continue
     
     total_over_score = sum(int_data)
-    
-    return total_over_score
 
-def calculate_wickets_lost(data):
+    if team_name == team_a['name']:
+        team_a['total'].append(total_over_score)
+    else:
+        team_b['total'].append(total_over_score)
+
+
+def calculate_wickets_lost(data, team_name):
     """
     Calculate wickets lost...
     """
@@ -169,31 +171,36 @@ def calculate_wickets_lost(data):
     for item in data:
         # Count occurrences of 'w' in the current string and add to the total count
         count += item.count('w') + item.count('W')
-    
+
+    if team_name == team_a['name']:
+        team_a['wickets'].append(count)
+    else:
+        team_b['wickets'].append(count)
+
     return count
 
 def main():
     """
     Run all program functions
     """
+    global team_a
+    global team_b
     todays_date = ask_for_date()
-    team_a, team_b = enter_team_names()
-    print(team_a, team_b)
-    print(todays_date)
-    # Appends title for this match. Date and name of two teams
-    title_header = [todays_date] + [team_a] + [team_b]
+    enter_team_names()
+    # Appends title for this match: date and name of two teams
+    title_header = [todays_date] + [team_a['name']] + [team_b['name']]
     update_scoresheet(title_header, 'Team A', 0)
     # Appends header row for scoresheet
     header_row = ['Team Name', 'Over','','','','','','','Total','Wickets']
     update_scoresheet(header_row, 'Team A', 0)
-    team_a_scores = get_scores_data(team_a)
-
+    team_a_scores = get_scores_data(team_a['name'])
+    # Appends header row for scoresheet
     header_row = ['Team Name', 'Over','','','','','','','Total','Wickets']
     update_scoresheet(header_row, 'Team A', 0)
+    team_b_scores = get_scores_data(team_b['name'])
 
-    team_b_scores = get_scores_data(team_b)
-    # update_scoresheet(score_over, 'Team A')
-
+    print(team_a)
+    print(team_b)
 
 print("Welcome to Cricket Scoresheet")
 main()
