@@ -1,6 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
-# from datetime import datetime
+import datetime
 
 
 SCOPE = [
@@ -14,6 +14,20 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('cricket_scoresheet')
 
+def ask_for_date():
+    while True:
+        date_input = input("Enter the date in the format dd/mm/yy: \n")
+        try:
+            # Attempt to parse the date
+            date_object = datetime.datetime.strptime(date_input, '%d/%m/%y')
+            # If parsing is successful, break the loop and return the date
+            return date_object.strftime('%d/%m/%y')
+        except ValueError:
+            # If parsing fails, inform the user and ask for input again
+            print("Invalid date format. Please try again.")
+
+    return date_input        
+
 def enter_team_names():
     """
     Enter the names of the two teams playing this game
@@ -26,6 +40,9 @@ def enter_team_names():
         if validate_team_names(team_a, team_b):
             print('Team names entered.')
             break
+
+    # title_header = [team_a] + [team_b]
+    # update_scoresheet(title_header, 'Team A', team_name)
 
     return (team_a, team_b)
 
@@ -86,9 +103,6 @@ Please enter the scores for {team_name}, one over at a time.
     # calculate_total(score_over)
 
     print('Innings complete.\n')
-
-    header_row = ['Team Name', 'Over','','','','','','','Total','Wickets']
-    update_scoresheet(header_row, 'Team A', team_name)
 
     return [team_name, score_over]
 
@@ -162,9 +176,21 @@ def main():
     """
     Run all program functions
     """
+    todays_date = ask_for_date()
     team_a, team_b = enter_team_names()
     print(team_a, team_b)
+    print(todays_date)
+    # Appends title for this match. Date and name of two teams
+    title_header = [todays_date] + [team_a] + [team_b]
+    update_scoresheet(title_header, 'Team A', 0)
+    # Appends header row for scoresheet
+    header_row = ['Team Name', 'Over','','','','','','','Total','Wickets']
+    update_scoresheet(header_row, 'Team A', 0)
     team_a_scores = get_scores_data(team_a)
+
+    header_row = ['Team Name', 'Over','','','','','','','Total','Wickets']
+    update_scoresheet(header_row, 'Team A', 0)
+
     team_b_scores = get_scores_data(team_b)
     # update_scoresheet(score_over, 'Team A')
 
