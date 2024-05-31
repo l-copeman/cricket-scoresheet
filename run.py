@@ -99,7 +99,8 @@ Example: 0,2,1,4,W,0
                 total_over = calculate_total_over(score_over, team_name)
                 wickets_lost = calculate_wickets_lost(score_over, team_name)
                 final_score_over = [team_name] + [i] + score_over + [total_over] + [wickets_lost]
-                update_scoresheet(final_score_over, 'Team A', team_name)
+                print('TEST',final_score_over)
+                update_scoresheet(final_score_over, 'Scores')
                 break  
 
     print('Innings complete.\n')
@@ -130,7 +131,7 @@ def validate_data(data):
         print(f"Validation error: {e}")
         return False
 
-def update_scoresheet(data, worksheet, team_name):
+def update_scoresheet(data, worksheet):
     """
     Update the scoresheet with the scores from the over.
     Players total is talleyed aswell as the teams total.
@@ -185,17 +186,23 @@ def final_score_append(team_name):
     """
     final...
     """
-    if team_name == team_a['name']:
+    print('TEAM NAME ',team_name)
+    print(team_a['name'])
+    print(team_b['name'])
+
+    if team_name['name'] == team_a['name']:
+        print("we are in team a")
         end_score_a = sum(team_a['total'])
         end_wickets_a = sum(team_a['wickets'])
         team_a_final = ['','','','','','','', 'Final Total',end_score_a,end_wickets_a]
-        update_scoresheet(team_a_final, 'Team A', 0)
+        update_scoresheet(team_a_final, 'Scores')
 
     else:
+        print('we are in team b')
         end_score_b = sum(team_b['total'])
         end_wickets_b = sum(team_b['wickets'])
         team_b_final = ['','','','','','','', 'Final Total',end_score_b,end_wickets_b]
-        update_scoresheet(team_b_final, 'Team A', 0)
+        update_scoresheet(team_b_final, 'Scores')
 
 
 def calculate_winner():
@@ -207,11 +214,23 @@ def calculate_winner():
 
     end_wickets_a = sum(team_a['wickets'])
     end_wickets_b = sum(team_b['wickets'])
-
+ 
     print(team_a['name'], 'final score', end_score_a,'/',end_wickets_a)
     print(team_b['name'], 'final score', end_score_b,'/',end_wickets_b)
     
-
+    if end_score_a > end_score_b:
+        print(team_a['name'] ,'are the winners')
+    elif end_score_b > end_score_a:
+        print(team_b['name'] ,'are the winners')   
+    else:
+        print('Scores are tied...')
+        if end_wickets_a < end_wickets_b:
+            print(team_a['name'] ,'are the winners')  
+        elif end_wickets_b < end_wickets_a:
+             print(team_b['name'] ,'are the winners')          
+        else:
+            print('Game is tied')       
+   
 
 def main():
     """
@@ -223,22 +242,25 @@ def main():
     enter_team_names()
     # Appends title for this match: date and name of two teams
     title_header = [todays_date] + [team_a['name']] + [team_b['name']]
-    update_scoresheet(title_header, 'Team A', 0)
+    update_scoresheet(title_header, 'Scores')
     # Appends header row for scoresheet
     header_row = ['Team Name', 'Over','','','','','','','Total/Over','Wickets']
-    update_scoresheet(header_row, 'Team A', 0)
+    update_scoresheet(header_row, 'Scores')
     team_a_scores = get_scores_data(team_a['name'])
-    final_score_append(team_a['name'])
+    final_score_append(team_a)
+    footer = ['-']
+    update_scoresheet(footer, 'Scores')
     # Appends header row for scoresheet
     header_row = ['Team Name', 'Over','','','','','','','Total/Over','Wickets']
-    update_scoresheet(header_row, 'Team A', 0)
+    update_scoresheet(header_row, 'Scores')
     team_b_scores = get_scores_data(team_b['name'])
     final_score_append(team_b)
     calculate_winner()
     # Creates space below sccoring before a new game commences scoring
     footer = ['-']
-    update_scoresheet(footer, 'Team A', 0)
-
+    update_scoresheet(footer, 'Scores')
+    footer = ['-']
+    update_scoresheet(footer, 'Scores')
     print(team_a)
     print(team_b)
 
