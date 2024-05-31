@@ -161,6 +161,8 @@ def calculate_total_over(total, team_name):
     else:
         team_b['total'].append(total_over_score)
 
+    return total_over_score    
+
 
 def calculate_wickets_lost(data, team_name):
     """
@@ -179,6 +181,38 @@ def calculate_wickets_lost(data, team_name):
 
     return count
 
+def final_score_append(team_name):
+    """
+    final...
+    """
+    if team_name == team_a['name']:
+        end_score_a = sum(team_a['total'])
+        end_wickets_a = sum(team_a['wickets'])
+        team_a_final = ['','','','','','','', 'Final Total',end_score_a,end_wickets_a]
+        update_scoresheet(team_a_final, 'Team A', 0)
+
+    else:
+        end_score_b = sum(team_b['total'])
+        end_wickets_b = sum(team_b['wickets'])
+        team_b_final = ['','','','','','','', 'Final Total',end_score_b,end_wickets_b]
+        update_scoresheet(team_b_final, 'Team A', 0)
+
+
+def calculate_winner():
+    """
+    winner...
+    """
+    end_score_a = sum(team_a['total'])
+    end_score_b = sum(team_b['total'])
+
+    end_wickets_a = sum(team_a['wickets'])
+    end_wickets_b = sum(team_b['wickets'])
+
+    print(team_a['name'], 'final score', end_score_a,'/',end_wickets_a)
+    print(team_b['name'], 'final score', end_score_b,'/',end_wickets_b)
+    
+
+
 def main():
     """
     Run all program functions
@@ -191,13 +225,19 @@ def main():
     title_header = [todays_date] + [team_a['name']] + [team_b['name']]
     update_scoresheet(title_header, 'Team A', 0)
     # Appends header row for scoresheet
-    header_row = ['Team Name', 'Over','','','','','','','Total','Wickets']
+    header_row = ['Team Name', 'Over','','','','','','','Total/Over','Wickets']
     update_scoresheet(header_row, 'Team A', 0)
     team_a_scores = get_scores_data(team_a['name'])
+    final_score_append(team_a['name'])
     # Appends header row for scoresheet
-    header_row = ['Team Name', 'Over','','','','','','','Total','Wickets']
+    header_row = ['Team Name', 'Over','','','','','','','Total/Over','Wickets']
     update_scoresheet(header_row, 'Team A', 0)
     team_b_scores = get_scores_data(team_b['name'])
+    final_score_append(team_b)
+    calculate_winner()
+    # Creates space below sccoring before a new game commences scoring
+    footer = ['-']
+    update_scoresheet(footer, 'Team A', 0)
 
     print(team_a)
     print(team_b)
