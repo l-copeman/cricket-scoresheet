@@ -27,49 +27,35 @@ team_b = {
 }
 
 def ask_for_date():
+    """
+    Ask the user to enter the date of the game
+    Date entered should be in the format dd/mm/yy
+    If not entered correctly, user is asked to re-enter
+    """
     while True:
-        date_input = input("Enter the date in the format dd/mm/yy: \n")
+        date_input = input("Enter the date for this game, format dd/mm/yy: \n")
         try:
-            # Attempt to parse the date
             date_object = datetime.datetime.strptime(date_input, '%d/%m/%y')
-            # If parsing is successful, break the loop and return the date
             return date_object.strftime('%d/%m/%y')
         except ValueError:
-            # If parsing fails, inform the user and ask for input again
             print("Invalid date format. Please try again.")
 
-    return date_input        
+    return date_input      
 
 def enter_team_names():
     """
-    Enter the names of the two teams playing this game
+    The user is asked for the names of the two teams
+    Each team name must have a minimum of 3 characters
+    Letters and numbers are accepted
     """
-    print('Please enter the two team names for this game.')
     global team_a
     global team_b
-
-    while True:
-        team_a['name'] = input('Team A name:\n')
-        team_b['name'] = input('Team B name:\n')
-        
-        if validate_team_names(team_a['name'], team_b['name']):
-            break
-
-    return (team_a, team_b)
-
-def validate_team_names(name_a, name_b):
-    try:
-        # Check if the data is empty
-        if (name_a, name_b) == "":
-            raise ValueError("Input cannot be empty.")
-        
-        # If the check passes, the input is valid
-        return True
-
-    except ValueError as e:
-        # Print the error message and return False to indicate invalid input
-        print(f"Validation error: {e}")
-        return False
+    team_a['name'] = '' 
+    while len(team_a['name'])< 3:
+        team_a['name'] = input("Enter the name of the first team: ").strip().title()
+    team_b['name'] = ''    
+    while len(team_b['name'])< 3:
+        team_b['name'] = input("Enter the name of the second team: ").strip().title()       
 
 def get_scores_data(team_name):
     """
@@ -86,10 +72,10 @@ Enter 6 scores for the over, each seperated by a comma.
 Example: 0,2,1,4,W,0
     """)
 
-    #change range back to 20 after testing
-    for i in range(3):
+    #change range back to 10 after testing
+    for i in range(1):
         while True:
-            score_str = input(f"Enter the score for {team_name}'s over ({i + 1}/20:)\n")
+            score_str = input(f"Enter the score for {team_name}'s over ({i + 1}/10:)\n")
             score_stripped = score_str.replace(" ", "")
             str_list = score_stripped.split(",")
             score_over = list(filter(None, str_list))
@@ -99,7 +85,6 @@ Example: 0,2,1,4,W,0
                 total_over = calculate_total_over(score_over, team_name)
                 wickets_lost = calculate_wickets_lost(score_over, team_name)
                 final_score_over = [team_name] + [i] + score_over + [total_over] + [wickets_lost]
-                print('TEST',final_score_over)
                 update_scoresheet(final_score_over, 'Scores')
                 break  
 
@@ -109,7 +94,7 @@ Example: 0,2,1,4,W,0
 
 def validate_data(data):
     """
-    Validate the data that has been inputed.
+    Validate the data that has been inputted.
     Only allowing the numbers 0-6 or the letter 
     'W' which represents a player getting out.
     """
@@ -133,18 +118,17 @@ def validate_data(data):
 
 def update_scoresheet(data, worksheet):
     """
-    Update the scoresheet with the scores from the over.
-    Players total is talleyed aswell as the teams total.
+    Function that updates the worksheet
     """
-
-    # print('Updating scoresheet...\n')
     worksheet_to_update = SHEET.worksheet(worksheet)
     worksheet_to_update.append_row(data)
-    # print('Scoresheet updated successfully\n')
 
 def calculate_total_over(total, team_name):
     """
-    Calculate total score....
+    Converts the data to a list of integers,
+    ignoring non-integer values (W).
+    Finds the sum of the data and appends it to
+    the relevant dictionary
     """
     # Convert the list of strings to a list of integers, ignoring non-integer values
     int_data = []
@@ -152,11 +136,10 @@ def calculate_total_over(total, team_name):
         try:
             int_data.append(int(num))
         except ValueError:
-            # Ignore the value if it cannot be converted to an integer
             continue
-    
+    # Adds the list of integers 
     total_over_score = sum(int_data)
-
+    # Appends the data to the relevant dictionary
     if team_name == team_a['name']:
         team_a['total'].append(total_over_score)
     else:
@@ -164,50 +147,44 @@ def calculate_total_over(total, team_name):
 
     return total_over_score    
 
-
 def calculate_wickets_lost(data, team_name):
     """
-    Calculate wickets lost...
+    Calculates number of wickets lost in the over.
+    Appends the data to the relevant dictionary 
     """
     count = 0
-
     for item in data:
-        # Count occurrences of 'w' in the current string and add to the total count
+        # Count occurrences of 'W' in the current string and add to the total count
         count += item.count('w') + item.count('W')
-
     if team_name == team_a['name']:
         team_a['wickets'].append(count)
     else:
         team_b['wickets'].append(count)
-
     return count
 
 def final_score_append(team_name):
     """
-    final...
+    Calculates the total score for the innings (10 overs)
+    by adding the values from the 'total' list in the dictionary
+    Appends headings to scoresheet for Final Total
     """
-    print('TEAM NAME ',team_name)
-    print(team_a['name'])
-    print(team_b['name'])
-
     if team_name['name'] == team_a['name']:
-        print("we are in team a")
         end_score_a = sum(team_a['total'])
         end_wickets_a = sum(team_a['wickets'])
         team_a_final = ['','','','','','','', 'Final Total',end_score_a,end_wickets_a]
         update_scoresheet(team_a_final, 'Scores')
 
     else:
-        print('we are in team b')
         end_score_b = sum(team_b['total'])
         end_wickets_b = sum(team_b['wickets'])
         team_b_final = ['','','','','','','', 'Final Total',end_score_b,end_wickets_b]
         update_scoresheet(team_b_final, 'Scores')
 
-
 def calculate_winner():
     """
-    winner...
+    Compares the final score values to determine the winner
+    If scores are equal, the team which has lost the least
+    wickets is the winner.
     """
     end_score_a = sum(team_a['total'])
     end_score_b = sum(team_b['total'])
@@ -219,23 +196,22 @@ def calculate_winner():
     print(team_b['name'], 'final score', end_score_b,'/',end_wickets_b)
     
     if end_score_a > end_score_b:
-        print(team_a['name'] ,'are the winners')
+        print(team_a['name'] ,'are the winners\n')
     elif end_score_b > end_score_a:
-        print(team_b['name'] ,'are the winners')   
+        print(team_b['name'] ,'are the winners\n')   
     else:
-        print('Scores are tied...')
         if end_wickets_a < end_wickets_b:
-            print(team_a['name'] ,'are the winners')  
+            print(team_a['name'] ,'are the winners\n')  
         elif end_wickets_b < end_wickets_a:
-             print(team_b['name'] ,'are the winners')          
+             print(team_b['name'] ,'are the winners\n')          
         else:
             print('Game is tied')       
-   
-
+ 
 def main():
     """
     Run all program functions
     """
+    print("Welcome to Cricket Scoresheet")
     global team_a
     global team_b
     todays_date = ask_for_date()
@@ -261,8 +237,13 @@ def main():
     update_scoresheet(footer, 'Scores')
     footer = ['-']
     update_scoresheet(footer, 'Scores')
-    print(team_a)
-    print(team_b)
+    # Ask the user if they want to repeat the program
+    repeat = input('Do you want to score another game? (yes/no): \n').strip().lower()
+    if repeat == 'yes':
+        main()
+    else:    
+        print("Exiting the program. Goodbye!")
+       
 
-print("Welcome to Cricket Scoresheet")
+    
 main()
