@@ -64,9 +64,17 @@ Please enter the scores for {team_name}, one over at a time.
     for i in range(3):
         while True:
             score_str = input(f"Enter the score for {team_name}'s over ({i + 1}/20:)\n")
-            score_over = score_str.split(",")
-            print('test', score_over)
+            score_stripped = score_str.replace(" ", "")
+            # score_over = [s.strip() for s in score_str]
+            # # print(stripped_list)
+            # str_list = filter(None, score_stripped)
+            # print(str_list)
+            str_list = score_stripped.split(",")
+            score_over = list(filter(None, str_list))
+            print('testing', score_over)
 
+
+            print('test', score_over)
             if validate_data(score_over):
                 print("Data is valid!\n")
                 total_over = calculate_total_over(score_over)
@@ -146,7 +154,7 @@ def calculate_wickets_lost(data):
 
     for item in data:
         # Count occurrences of 'w' in the current string and add to the total count
-        count += item.count('w')
+        count += item.count('w') + item.count('W')
     
     return count
 
