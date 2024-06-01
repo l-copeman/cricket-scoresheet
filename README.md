@@ -117,248 +117,109 @@ The terminal can be accessed by this [link](https://cricket-scoresheet-0bbdfb6c6
 * Innings complete message is printed in the terminal when the user has finished scoring the second team.
 
 
-![Final scores](documentation/)
+![Final scores](documentation/final_scores.jpeg)
 
 * The final scores for the game are then shown in the terminal.
 * The winning team is announced.
 
 
+![Score again](documentation/play_again.jpeg)
 
+* The user is asked if they want to score again.
+* If 'yes' is entered, the program starts again, ready to score another game.
    
 ---
 
-- ### Footer
+### Google Worksheet
 
-![Footer](documentation/footer.jpeg)
+![Scoresheet](documentation/worksheet.jpeg)
 
-* The footer is positioned at the bottom of the page.
-* It contains the author for the game.
-* There is a link to the authors GitHub Page via an icon.
-* The link has hover properties and opens in a new page.  
-
----
-
-- ### Start section
-
-* The page has a short paragraph informing the user what the game is about.
-* It instructs users to enter their name and click start to begin the game.
-* Names are to be entered inside the input field.
-* If no name is entered before clicking start, an alert will pop-up to remind the user to enter a name.
-* A circular button labelled 'Start' is clicked to begin the game.
-
-![Start section](documentation/start-section.jpeg)
-
-* The text is responsive, increasing in size for larger screen sizes.
-
+* As data is entered it is appended to the scoresheet on Google Sheets.
+* The top of the scoresheet has the date and the two teams name.
+* The first teams 10 overs are then listed
+* After each over the total for that over is shown as well as wickets.
+* After 10 overs, the total score is shown, and total wickets lost.
+* The second teams score is then shown below.
 
 ---
+- ### Flowchart
 
-- ### Questions section
+![Flowchart](documentation/flowchart.jpeg)
 
-* The question is displayed in large text within a golden yellow banner.
-* There is an answer area where the user can input their answer.
-* If no answer is entered, the user is alerted to enter an answer before continuing.
-* There is a submit input to click to check the answer. (the user can also use the enter key).
-* After an answer has been submitted it is checked and added to the score.
+* This flowchart helps show the logic used for the programme.
 
-![Questions section](documentation/questions-section.jpeg)
-
-* Towards the bottom of the section is the score area.
-* Correct scores are talleyed and displayed after a correct answer.
-* Incorrect scores are talleyed and displayed after an incorrect answer.
-* Another question is then shown.
-* 10 questions are asked in total, before the game finishes.
-* The text is responsive, increasing in size for larger screen sizes.
-
---- 
-
-- ### Results section
-
-* After 10 questions have been answered, the user is shown the results section.
-* A personalised message is displayed, showing the users name and their final score.
-* There is a button with a link to allow the user to play again.
-
-![Signup screenshot](documentation/results-section.jpeg)
 
 ---
 
 ### Technologies Used
 
-- [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) - was used as the foundation of the game.
-- [CSS](https://developer.mozilla.org/en-US/docs/Web/css) - was used to add the styles and layout of the game.
-- [JavaScript](https://developer.mozilla.org/en-US/docs/Learn/javascript) - was used to arrange items on the pages.
-- [Balsamiq](https://balsamiq.com/) - was used to make wireframes for the game.
+- [Python 3.8.5](https://www.python.org/downloads/release/python-385/): used to anchor the project and direct all application behavior
 - [Miro](https://miro.com/app/) - was used to create a workflow.
 - [Gitpod](https://www.gitpod.io/) - was used as the main tool to write and edit code.
 - [GitHub](https://github.com/) - was used to host the code of the website.
-- [PineTools](https://pinetools.com/) - was used to find colors from image.
-
-
----
-
-## Design
-
-### Colour
-
-![Colours Screenshot](documentation/colors.jpeg)
-
-* The shades of blue were taken from the image and used throughout the styling of the game.
-* The main background of the game is the lighter blue from the image.
-* The dark blue is used for the footer and the buttons.
-* A golden yellow was used as a banner for the name area and when displaying questions, as well as some border styling. It was chosen as it contrasts well with the blue. The blue and gold also have associations with Europe from the flag of the European Union.
-* A coral shade of pink was used for the score area. This ensures the area stands out and contrasts well with the light blue background.
-
-### Typography
-
-![Font Screenshot](documentation/font-family.jpeg)
-
-* Outfit was used as the main font of the game in order to increase readability of the content on the pages.
-
-
-### Wireframe
-
-* I used Balsamiq to create a wireframe of my idea
-
-![Wireframe](documentation/wireframe.jpeg)
-
-### Workflow
-
-* I used Miro to create a workflow of my idea
-
-![Wireframe](documentation/workflow.jpeg)
+- [Heroku](https://id.heroku.com/login) - was used for deployment.
 
 ---
 
-## Testing
-
-### Compatibility
-
-In order to confirm the correct functionality, responsiveness and appearance the game was tested on: 
-
-* Chrome
-
-![Chrome Test](documentation/chrome-test.jpeg)
-
-* Safari
-
-![Safari Test](documentation/safari-test.jpeg)
-
-* Firefox
-
-![Firefox](documentation/firefox-test.jpeg)
-
-### Responsiveness
-
-In orfer to cofirm the responsiveness of the game, devtools was used to check the game on different screen sizes:
-
-* Phone
-
-![Phone Test](documentation/mobile-test.jpeg) 
-
-* Tablet
-
-![Tablet Test](documentation/tablet-test.jpeg)
-
-* Laptop
-
-![Laptop Test](documentation/laptop-test.jpeg)
+### Testing
 
 
+## Validator Testing
 
-### Validator Testing
+- ![Code validation](documentation/validator.jpeg)
 
-- #### HTML
-
-No errors or warnings were found when passing through the official W3C validator.
-
-![HTML Validator](documentation/html-validator.jpeg)
+* The code passed with validation without error.
 
 
-- #### CSS
-
-No errors or warnings were found when passing through the official W3C (Jigsaw) validator.
-
-![CSS Validator](documentation/css-validator.jpeg)
-
-- #### JavaScript
-
-No errors or warnings were found when passing through the official jshint validator.
-
-![JavaScript Validator](documentation/javascript-validator.jpeg)
-
----
-
-### Lighthouse Report
-
-![Lighthouse Report](documentation/lighthouse-report.jpeg)
-
----
-
-### Manual Testing
-
-Maunal tests carried out by multiple users:
-
-* The name can be entered into the name input field
-* If no name is entered, an alert pops-up to remind the user to enter a name
-* The button labeled 'Start' begins the game
-* The button labeled 'Start' has hover styling when the cursor is on it
-* Answers can be entered in the answer input field
-* If no answer is entered, an alert pops-up to remind the user to enter an answer
-* All cases of answers are accepted; lowercase, uppercase, camelCase.
-* The submit input can be clicked to check the users answer
-* The submit input has hover styling, when the cursor is on it
-* Answers can also be checked using the 'Enter' key
-* The answer field is emptied after each question, so the user doesn't need to delete the previous answer
-* The correct and incorrect scores are talleyed as the game progresses. 
-* No questions are repeated during the cycle of the game
-* The game ends after 10 questions have been asked
-* A personalised message is displayed with the users final correct score
-* The users name is displayed in capital letters, regardless of how it was entered in the name field
-* The 'Play Again' button takes the user back to the start of the game to repeat the game
-* The 'Play Again' button has hover styling when the cursor is on it
-* A different selection of questions are asked when the game is played again
-* Authors GitHub page loads in a new page, from the link in the footer
-* The GitHub logo has hover properties when the cursor is on it
-  
 ### Bugs
 
 #### Solved bugs
 
-* I noticed that users answers were being marked incorrectly, even when spelt correctly, when they used different capitalisation than the actual answer. To solve this, I first used the `toLowerCase()` method to change the users answer to lowercase. The actual answer was also written in lowercase, this allowed the two answers to be checked regarding spelling, as opposed to different capitalisation. 
+* The `calculate_total()` function calculates the total score for each over. As an over can include a non-integer 'W', which represents a player getting out, an error appeared when trying to add the data. To resolve this I created a list of just the integers from the over, ignoring any 'W's.
+  - ![Ignoring non-integers](documentation/bug_1.jpeg)
 
-* When checking the HTML code through the validator, I had errors where the three `<section>` of the game were without headings. I added heaadings for each section, and used the `visibility:hidden` styling property, so the headings were not visible during the game.
+* When the scores are being inputted, I used `replace(" ", "")` to remove any whitespace in the data. I used this method to try and prevent an empty field being appecpted. When testing I found that the function still accepted a `,` without any data after it as an input. To resolve this I used `filter(None)` method to remove any data of value `None` from the list.
+  - ![Filter `None` data](documentation/filter.jpeg)
 
-## Deployment
+#### Unresolved bugs
 
-### Deployment to GitHub Pages
+* When the programme has finished, and the winning team has bee announced, the user is asked if they wish to score another game. If `yes` is entered, the programme starts again ready to score another game. Any other input for this qustion, including an empty field, will finish the programme. To prevent this I would look to validate the input, where `yes` starts again, `no` would end the programme, and any other input would be invalid.
 
-- The site was deployed to GitHub pages. The steps to deploy are as follows: 
-  - In the [GitHub repository](https://github.com/l-copeman/european-countries), navigate to the Settings tab 
-  - From the source section drop-down menu, select the **Main** Branch, then click "Save".
-  - The page will be automatically refreshed with a detailed ribbon display to indicate the successful deployment.
 
-The live link can be found [here](https://l-copeman.github.io/european-countries/index.html)
+## Deployment to Heroku
+
+#### To run as a remote web application:
+
+  1. Create a Heroku account if you don't already have one here Heroku.
+  1. Create a new Heroku application on the following page here New Heroku App.
+  1. Go to the Deploy tab.
+  1. Deployment Method.
+  1. Link your GitHub account and connect the application to the repository you created.
+  1. Go to the Settings tab.
+  1. Click "Add buildpack".
+  1. Add the Python and Node.js buildpacks in the following order:
+  1. Click "Reveal Config Vars."
+  1. Add 1 new Config Vars:
+      -Key: PORT Value: 8000 (This Config was provided by CODE INSTITUTE.)
+  1. Go back to the Deploy tab.
+  1. Click "Deploy Branch".
+  1. Click "Open app" to launch the application inside a web page.
+
+The live link can be found [here](https://cricket-scoresheet-0bbdfb6c6880.herokuapp.com/)
 
 ---
 
 ## Future Improvements
 
-* I would like to add more questions, and offer a greater range of topics (different continents and questions regarding national flags).
-* I would like to show the user the correct answer when they have entered an incorrect answer.
-* I would like to change the 'Play Again' button so it takes the user back to the beginning of the game without having to reload the page. I would look to do this by using the `classList.remove/classList.add` method on the elements. This will speed up the loading time and create a better user experience.
-
----
-
-## Credits
-
-#### Images
-
-Image was taken from:
-* [iStock](https://www.istockphoto.com/)
+* I would like to improve the scoring system to include individual players scores.
+* I would like to be able to score different formats of the cricket game:
+  - 20 over games.
+  - 50 over games.
+  - 5 day games.
 
 ---
 
 ## Acknowledgements
 
 * [Code Institute](https://codeinstitute.net/) tutors, mentor and Slack community members for their support and help.
-* Cristina Bonilla, my partner, for her support, design guidance and help with testing.
+* Cristina Bonilla, my partner, for her continued support and help with testing.
