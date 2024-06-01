@@ -26,6 +26,7 @@ team_b = {
     "wickets": []
 }
 
+
 def ask_for_date():
     """
     Ask the user to enter the date of the game
@@ -48,6 +49,10 @@ def enter_team_names():
     Each team name must have a minimum of 3 characters
     Letters and numbers are accepted
     """
+    print(f"""
+Please enter the names of the two teams.
+Each teams name must be a minimum of 3 characters.
+    """)
     global team_a
     global team_b
     team_a['name'] = '' 
