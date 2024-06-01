@@ -39,6 +39,7 @@ The terminal can be accessed by this [link](https://cricket-scoresheet-0bbdfb6c6
 * The user is then asked to input the scores for the first teams innings.
 * Each teams innings consists of 10 overs (6 scores per over).
 * Each score can be between 0-6, or a 'W' to represent a player getting out.
+* The six scores per over are entered with a comma between them.
 * Example of an input for one overs score: 2,3,4,0,W,1.
 * The program updates the scoresheet on Google Sheets as scores are inputted.
 * After scoring the first teams 10 overs, the next team begin scoring.
@@ -67,11 +68,10 @@ The terminal can be accessed by this [link](https://cricket-scoresheet-0bbdfb6c6
 
 ## Features
 
-- ### Header
-
 ![Welcome message](documentation/welcome.jpeg)
 
 * Welcome message greets the user as the program begins.
+
 
 ![Date input](documentation/date.jpeg)
 
@@ -79,7 +79,51 @@ The terminal can be accessed by this [link](https://cricket-scoresheet-0bbdfb6c6
 * If an invalid date is entered, the user is asked to re-enter the date.
 * The date is used on the scoresheet to mark the date of the game.
 
-![Welcome message](documentation/welcome.jpeg)
+
+![Team names input](documentation/names.jpeg)
+
+* User is then asked to enter the two teams name.
+* Each team name must be a minimum of 3 characters.
+* The user will be asked to re-enter until a valid name is entered.
+
+
+![Score input](documentation/score.jpeg)
+
+* The first team begin their innings
+* Each innings will consist of 10 overs, each over will be inputted during the innings.
+* An over consists of 6 scores, each ranging from 0-6, or 'W' is a player is out.
+  ![Valid input](documentation/valid.jpeg)
+  - 'Data is valid' is printed in the terminal if the score is entered correctly.
+  ![Invalid input](documentation/invalid.jpeg)
+  - Validation error if more than 6 scores entered.
+  - User is asked to input the score for that over again. 
+  ![Invalid input](documentation/invalid_ch.jpeg)
+  - Validation error if incorrect character entered.
+  - User is asked to input the score for that over again.
+
+
+![Innings complete](documentation/complete.jpeg)
+
+* Innings complete message is printed in the terminal when the user has finished scoring the first team.
+
+
+![Second team](documentation/second_team.jpeg)
+
+* The user is then asked to begin scoring the second team.
+
+
+![Innings complete](documentation/complete.jpeg)
+
+* Innings complete message is printed in the terminal when the user has finished scoring the second team.
+
+
+![Final scores](documentation/)
+
+* The final scores for the game are then shown in the terminal.
+* The winning team is announced.
+
+
+
    
 ---
 

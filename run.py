@@ -243,7 +243,7 @@ def main():
     footer = ['-']
     update_scoresheet(footer, 'Scores')
     # Ask the user if they want to repeat the program
-    repeat = input('Do you want to score another game? (yes/no): \n').strip().lower()
+    repeat = input('Do you want to score another game? Enter "yes" to score again :\n').strip().lower()
     if repeat == 'yes':
         main()
     else:    
